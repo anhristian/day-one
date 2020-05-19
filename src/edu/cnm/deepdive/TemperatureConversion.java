@@ -40,8 +40,19 @@ public class TemperatureConversion {
     return fahrenheitTemperatures;
   }
 
+  public static double[] convertF2C(double[] fahrenheitTemperature) {
+    double[] celsiusTemperatures = new double[fahrenheitTemperature.length];
+    for (int i = 0; i < fahrenheitTemperature.length; i++) {
+      double fahrenheit = fahrenheitTemperature[i];
+      double celsius = convertF2C(fahrenheit);
+      celsiusTemperatures[i] = celsius;
+    }
+    return celsiusTemperatures;
+  }
 
 }
+
+
 
 
 
