@@ -2,6 +2,8 @@ package edu.cnm.deepdive;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TemperatureConversion {
@@ -11,19 +13,7 @@ public class TemperatureConversion {
   private static final double SCALE_OFFSET = 32;
 
   public static void main(String[] args) {
-    if (args.length == 0) {
-      double tempCelsius = 100;
-      double tempFahrenheit = 32;
-      System.out.println("Celsius " + tempCelsius + " = " + convertC2F(tempCelsius) + " Fahreheit");
-      System.out.println("Fahreheit " + tempFahrenheit + " = " + convertF2C(tempFahrenheit) + " Celsius");
-    } else {
-
-      for (int i = 0; i < args.length; i++) {
-        double tempCelsius = Double.parseDouble(args[i]);
-        System.out.println("Celsius " + tempCelsius + " = " + convertC2F(tempCelsius) + " Fahreheit");
-      }
-
-    }
+    convertInputToFahrenheit(System.in, System.out);
   }
 
   public static double convertC2F(double celsius) {
@@ -57,9 +47,15 @@ public class TemperatureConversion {
  public static void convertInputToFahrenheit(InputStream input, PrintStream output) {
     Scanner scanner = new Scanner(input);
     while (true) {
-      double celsius = scanner.nextDouble();
-      double fahrenheit = convertC2F(celsius);
-      output.println(fahrenheit);
+      try {
+        double celsius = scanner.nextDouble();
+        double fahrenheit = convertC2F(celsius);
+        output.println(fahrenheit);
+      } catch (InputMismatchException e) {
+        System.err.printf("Unable to parse %s as double.%n", scanner.next());
+      } catch (NoSuchElementException e) {
+        break;
+      }
     }
  }
 }
