@@ -13,8 +13,13 @@ public class TemperatureConversion {
   private static final double SCALE_OFFSET = 32;
 
   public static void main(String[] args) {
-    convertInputToFahrenheit(System.in, System.out);
+    if (args.length > 0 && args[0].toLowerCase().equals("f2c")) {
+      convertInputToCelsius(System.in, System.out);
+    } else {
+      convertInputToFahrenheit(System.in, System.out);
+    }
   }
+
 
   public static double convertC2F(double celsius) {
     return celsius * CELCIUS_TO_FAHRENHEIT_SCALE + SCALE_OFFSET;
@@ -58,6 +63,22 @@ public class TemperatureConversion {
       }
     }
  }
+
+  public static void convertInputToCelsius(InputStream input, PrintStream output) {
+    Scanner scanner = new Scanner(input);
+    while (true) {
+      try {
+        double fahrenheit = scanner.nextDouble();
+        double celsius = convertF2C(fahrenheit);
+        output.println(celsius);
+      } catch (InputMismatchException e) {
+        System.err.printf("Unable to parse %s as double.%n", scanner.next());
+      } catch (NoSuchElementException e) {
+        break;
+      }
+    }
+  }
+
 }
 
 
